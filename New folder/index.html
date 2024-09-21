@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fundal video fix</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 5rem;
+            color: white;
+            font-weight: normal;
+            position: relative;
+            z-index: 2;
+            margin-top: 50px;
+        }
+
+        .header-text {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            color: white;
+            text-shadow: 2px 2px 0 #000, 
+                         -2px -2px 0 #000, 
+                         2px -2px 0 #000, 
+                         -2px 2px 0 #000;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .header-text img {
+            vertical-align: middle; 
+            margin-left: 10px;
+            width: 40px;
+        }
+
+        video {
+            width: 400px;
+            height: 800px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .coin-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            width: 180px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .balance-text {
+            position: absolute;
+            top: 28%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: white;
+            z-index: 4;
+        }
+
+        .tap-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: yellow;
+            color: black;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 6;
+            transition: transform 0.2s ease;
+        }
+
+        .tap-button:active,
+        .coin-image:active {
+            animation: popEffect 0.2s forwards;
+        }
+
+        @keyframes popEffect {
+            0% {
+                transform: translate(-50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%) scale(0.5);
+            }
+            100% {
+                transform: translate(-50%) scale(1);
+            }
+        }
+
+        .sections {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            gap: 10px;
+        }
+
+        .section {
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 0, 0.7);
+            color: black;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .section:hover {
+            background-color: rgba(255, 255, 0, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header-text">
+        Coin Tap
+        <img src="dollar.png" alt="Dollar logo">
+    </div>
+    
+    <video autoplay muted loop>
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <div class="balance-text">Balance: 0 coins</div>
+    <img src="coin.png" alt="Coin" class="coin-image" onclick="increaseBalance()">
+
+    <button class="tap-button" onclick="increaseBalance()">Tap Tap</button>
+
+    <div class="sections">
+        <button class="section" onclick="window.location.href='index.html'">Earn Menu</button>
+        <button class="section" onclick="window.location.href='upgrade.html'">Upgrade</button>
+        <button class="section" onclick="window.location.href='toprewards.html'">Top Rewards</button>
+    </div>
+
+    <script>
+        let balance = localStorage.getItem('balance') ? parseInt(localStorage.getItem('balance')) : 0;
+        let canClick = true;
+
+        document.querySelector('.balance-text').textContent = 'Balance: ' + balance + ' coins';
+
+        function increaseBalance() {
+            if (!canClick) return;
+            balance += 1;
+            document.querySelector('.balance-text').textContent = 'Balance: ' + balance + ' coins';
+            localStorage.setItem('balance', balance);
+            canClick = false;
+
+            setTimeout(() => {
+                canClick = true;
+            }, 250);
+        }
+    </script>
+</body>
+</html>

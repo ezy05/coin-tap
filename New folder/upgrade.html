@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Menu</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=AdRO1MV7fiHhWYZmqkugxD04Xt8aLQzzydLX2h_1beW84eYSilzwg1Nkp7CqlhD2LaXjFQJuY7xcjVoF"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            width: 400px;
+            height: 800px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            gap: 15px; /* Spațiu între carduri */
+            padding-top: 150px; /* Spațiu de 150px de sus pentru carduri */
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 0, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            width: 200px; /* Lățimea cardurilor mărită la 200px */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Efect de hover */
+        }
+
+        h2 {
+            margin: 0 0 5px 0; /* Diminuarea marginilor */
+            font-size: 1rem; /* Dimensiune titlu mai mică */
+        }
+
+        p {
+            margin: 0;
+            font-size: 0.8rem; /* Dimensiune descriere mai mică */
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 70px; /* Spațiu mai mare sus */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-text {
+            font-size: 2rem; /* Dimensiune titlu */
+            color: white;
+            text-shadow: 2px 2px 0 #000, 
+                         -2px -2px 0 #000, 
+                         2px -2px 0 #000, 
+                         -2px 2px 0 #000;
+            font-weight: bold;
+            margin-right: 20px; /* Spațiu între text și buton */
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: yellow;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 0, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <video autoplay muted loop>
+            <source src="background.mp4" type="video/mp4">
+        </video>
+
+        <div class="header-container">
+            <div class="header-text">Upgrade</div>
+            <button class="back-button" onclick="window.location.href='index.html'">Home page</button>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <h2>Start Pack</h2>
+                <p>Receive 5000 coins</p>
+                <p>Price: $1</p>
+                <div id="paypal-button-start"></div> <!-- Buton PayPal pentru Start Pack -->
+            </div>
+            <div class="card">
+                <h2>Pro Pack</h2>
+                <p>Receive 10000 coins</p>
+                <p>Price: $5</p>
+                <div id="paypal-button-pro"></div> <!-- Buton PayPal pentru Pro Pack -->
+            </div>
+            <div class="card">
+                <h2>Vip Pack</h2>
+                <p>Receive 50000 coins</p>
+                <p>Price: $10</p>
+                <div id="paypal-button-vip"></div> <!-- Buton PayPal pentru VIP Pack -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Buton PayPal pentru Start Pack
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '1.00' // Prețul pentru Start Pack
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Plata a fost efectuată cu succes! ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-start');
+
+        // Buton PayPal pentru Pro Pack
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '5.00' // Prețul pentru Pro Pack
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Plata a fost efectuată cu succes! ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-pro');
+
+        // Buton PayPal pentru VIP Pack
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '10.00' // Prețul pentru VIP Pack
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Plata a fost efectuată cu succes! ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-vip');
+    </script>
+</body>
+</html>
